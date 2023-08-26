@@ -1,0 +1,30 @@
+/* App.css */
+
+/* スタイリングの共通部分 */
+.container {
+  max-width: 200px;
+  padding: 20px;
+}
+
+/* MemoListコンポーネントのスタイル */
+.memo-item {
+  padding: 5px;
+  margin: 10px;
+}
+
+/* ボタンのスタイル */
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 8px 16px;
+  cursor: pointer;
+}
+
+/* フォームのスタイル */
+.form {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
