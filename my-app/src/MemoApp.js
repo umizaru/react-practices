@@ -14,14 +14,14 @@ function MemoApp() {
     setEditingMemo({ id: uuidv4(), content: "新規メモ" });
   }
 
-  function handleEditButtonClick(memo) {
-    if (editingMemo === "") {
+  function handleEditButtonClick() {
+    if (editingMemo.content === "") {
       alert("文字を入力してください");
       return;
     }
-    setAllMemos((prevMemos) => [
-      ...prevMemos,
-      { id: uuidv4(), content: memo.content },
+    setAllMemos((memos) => [
+      ...memos,
+      { id: uuidv4(), content: editingMemo.content },
     ]);
     setEditingMemo(null);
   }
@@ -43,7 +43,7 @@ function MemoApp() {
         <MemoEditForm
           editingMemo={editingMemo}
           setEditingMemo={setEditingMemo}
-          handleEditButtonClick={(memo) => handleEditButtonClick(memo)}
+          handleEditButtonClick={handleEditButtonClick}
           handleDeleteButtonClick={handleDeleteButtonClick}
         />
       </div>

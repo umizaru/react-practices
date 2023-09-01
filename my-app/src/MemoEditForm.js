@@ -9,8 +9,10 @@ function MemoEditForm({
       <form>
         <input
           type="text"
-          value={editingMemo}
-          onChange={(e) => setEditingMemo(e.target.value)}
+          value={editingMemo ? editingMemo.content : ""}
+          onChange={(e) =>
+            setEditingMemo({ ...editingMemo, content: e.target.value })
+          }
         />
       </form>
       <button className="button" onClick={handleEditButtonClick}>
