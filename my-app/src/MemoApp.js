@@ -19,14 +19,37 @@ function MemoApp() {
       alert("文字を入力してください");
       return;
     }
-    setAllMemos((memos) => [
-      ...memos,
-      { id: uuidv4(), content: editingMemo.content },
-    ]);
+
+    const targetID = editingMemo.id;
+    const targetMemoIndex = allMemos.findIndex((memo) => memo.id === targetID);
+
+    if (targetMemoIndex === -1) {
+      setAllMemos((memos) => [
+        ...memos,
+        { id: uuidv4(), content: editingMemo.content },
+      ]);
+    } else {
+      const newMemos = [...allMemos];
+      const updateMemos = {
+        ...newMemos[targetMemoIndex],
+        content: editingMemo.content,
+      };
+      newMemos[targetMemoIndex] = updateMemos;
+      setAllMemos(newMemos);
+    }
     setEditingMemo(null);
   }
 
-  function handleDeleteButtonClick() {}
+  function handleDeleteButtonClick() {
+    const targetID = editingMemo.id;
+    const targetMemoIndex = allMemos.findIndex((memo) => memo.id === targetID);
+
+    if (targetMemoIndex === -1) {
+      return null;
+    } else {
+      setAllMemos(allMemos.filter((memo) => memo.id !== targetID));
+    }
+  }
 
   return (
     <div id="memo-app">
@@ -39,14 +62,16 @@ function MemoApp() {
           handleSelectedMemoClick={(memo) => setEditingMemo(memo)}
         />
       </div>
-      <div id="memo-edit-form">
-        <MemoEditForm
-          editingMemo={editingMemo}
-          setEditingMemo={setEditingMemo}
-          handleEditButtonClick={handleEditButtonClick}
-          handleDeleteButtonClick={handleDeleteButtonClick}
-        />
-      </div>
+      {editingMemo ? (
+        <div id="memo-edit-form">
+          <MemoEditForm
+            editingMemo={editingMemo}
+            setEditingMemo={setEditingMemo}
+            handleEditButtonClick={handleEditButtonClick}
+            handleDeleteButtonClick={handleDeleteButtonClick}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
