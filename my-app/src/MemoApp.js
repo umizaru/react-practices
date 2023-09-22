@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import MemoCreateButton from "./MemoCreateButton";
@@ -9,14 +9,16 @@ function MemoApp() {
   const [allMemos, setAllMemos] = useState([]);
   const [editingMemo, setEditingMemo] = useState("");
 
-  // 初期化したときにローカルストレージからデータを読み込む
-  function loadMemos() {
-    const storedMemos = JSON.parse(localStorage.getItem("memos")) || [];
-    setAllMemos(storedMemos);
-  }
-
-  // ページを読み込んだときにローカルストレージからデータを読み込む
-  window.addEventListener("load", loadMemos);
+  useEffect(() => {
+    function loadMemos() {
+      const storedMemos = JSON.parse(localStorage.getItem("memos")) || [];
+      setAllMemos(storedMemos);
+    }
+    window.addEventListener("load", loadMemos);
+    return () => {
+      window.removeEventListener("load", loadMemos);
+    };
+  }, []);
 
   function handleCreateButtonClick() {
     setEditingMemo({ id: uuidv4(), content: "新規メモ" });

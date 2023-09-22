@@ -7,8 +7,8 @@ function MemoEditForm({
   return (
     <div>
       <form>
-        <input
-          type="text"
+        <textarea
+          rows="5"
           value={editingMemo ? editingMemo.content : ""}
           onChange={(e) =>
             setEditingMemo({ ...editingMemo, content: e.target.value })
