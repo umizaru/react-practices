@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
-import MemoList from "./MemoList";
 import MemoCreateButton from "./MemoCreateButton";
+import MemoList from "./MemoList";
 import MemoEditForm from "./MemoEditForm";
 
 function MemoApp() {
@@ -33,11 +33,12 @@ function MemoApp() {
 
     if (targetMemoIndex === -1) {
       // 新規メモの場合
-      setAllMemos((memos) => [
-        ...memos,
+      const newMemos = [
+        ...allMemos,
         { id: uuidv4(), content: editingMemo.content },
-      ]);
-      localStorage.setItem("memos", JSON.stringify(editingMemo));
+      ];
+      localStorage.setItem("memos", JSON.stringify(newMemos));
+      setAllMemos(newMemos);
     } else {
       //既存メモの場合
       const newMemos = [...allMemos];
@@ -46,8 +47,8 @@ function MemoApp() {
         content: editingMemo.content,
       };
       newMemos[targetMemoIndex] = updateMemos;
-      setAllMemos(newMemos);
       localStorage.setItem("memos", JSON.stringify(newMemos));
+      setAllMemos(newMemos);
     }
     setEditingMemo(null);
   }
@@ -59,8 +60,9 @@ function MemoApp() {
     if (targetMemoIndex === -1) {
       return null;
     } else {
-      setAllMemos(allMemos.filter((memo) => memo.id !== targetID));
-      localStorage.setItem("memos", JSON.stringify(editingMemo));
+      const newMemos = allMemos.filter((memo) => memo.id !== targetID);
+      localStorage.setItem("memos", JSON.stringify(newMemos));
+      setAllMemos(newMemos);
       setEditingMemo(null);
     }
   }
