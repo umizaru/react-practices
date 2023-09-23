@@ -20,6 +20,10 @@ function MemoApp() {
     };
   }, []);
 
+  function saveMemosToLocalStorage(newMemos) {
+    localStorage.setItem("memos", JSON.stringify(newMemos));
+  }
+
   function handleCreateButtonClick() {
     setEditingMemo({ id: uuidv4(), content: "新規メモ" });
   }
@@ -34,22 +38,20 @@ function MemoApp() {
     const targetMemoIndex = allMemos.findIndex((memo) => memo.id === targetID);
 
     if (targetMemoIndex === -1) {
-      // 新規メモの場合
       const newMemos = [
         ...allMemos,
         { id: uuidv4(), content: editingMemo.content },
       ];
-      localStorage.setItem("memos", JSON.stringify(newMemos));
+      saveMemosToLocalStorage(newMemos);
       setAllMemos(newMemos);
     } else {
-      //既存メモの場合
       const newMemos = [...allMemos];
       const updateMemos = {
         ...newMemos[targetMemoIndex],
         content: editingMemo.content,
       };
       newMemos[targetMemoIndex] = updateMemos;
-      localStorage.setItem("memos", JSON.stringify(newMemos));
+      saveMemosToLocalStorage(newMemos);
       setAllMemos(newMemos);
     }
     setEditingMemo(null);
@@ -63,7 +65,7 @@ function MemoApp() {
       return null;
     } else {
       const newMemos = allMemos.filter((memo) => memo.id !== targetID);
-      localStorage.setItem("memos", JSON.stringify(newMemos));
+      saveMemosToLocalStorage(newMemos);
       setAllMemos(newMemos);
       setEditingMemo(null);
     }
