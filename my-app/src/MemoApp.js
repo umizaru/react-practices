@@ -2,22 +2,16 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import MemoCreateButton from "./MemoCreateButton";
-import MemoList from "./MemoList";
 import MemoEditForm from "./MemoEditForm";
+import MemoList from "./MemoList";
 
 function MemoApp() {
   const [allMemos, setAllMemos] = useState([]);
   const [editingMemo, setEditingMemo] = useState("");
 
   useEffect(() => {
-    function loadMemos() {
-      const storedMemos = JSON.parse(localStorage.getItem("memos")) || [];
-      setAllMemos(storedMemos);
-    }
-    window.addEventListener("load", loadMemos);
-    return () => {
-      window.removeEventListener("load", loadMemos);
-    };
+    const storedMemos = JSON.parse(localStorage.getItem("memos")) || [];
+    setAllMemos(storedMemos);
   }, []);
 
   function saveMemosToLocalStorage(newMemos) {
@@ -34,23 +28,19 @@ function MemoApp() {
       return;
     }
 
-    const targetID = editingMemo.id;
-    const targetMemoIndex = allMemos.findIndex((memo) => memo.id === targetID);
+    const targetMemo = allMemos.find((memo) => memo.id === editingMemo.id);
 
-    if (targetMemoIndex === -1) {
-      const newMemos = [
-        ...allMemos,
-        { id: uuidv4(), content: editingMemo.content },
-      ];
+    if (typeof targetMemo === "undefined") {
+      const newMemos = [...allMemos, editingMemo];
       saveMemosToLocalStorage(newMemos);
       setAllMemos(newMemos);
     } else {
       const newMemos = [...allMemos];
       const updateMemos = {
-        ...newMemos[targetMemoIndex],
+        ...newMemos[targetMemo],
         content: editingMemo.content,
       };
-      newMemos[targetMemoIndex] = updateMemos;
+      newMemos[targetMemo] = updateMemos;
       saveMemosToLocalStorage(newMemos);
       setAllMemos(newMemos);
     }
@@ -58,29 +48,16 @@ function MemoApp() {
   }
 
   function handleDeleteButtonClick() {
-    const targetID = editingMemo.id;
-    const targetMemoIndex = allMemos.findIndex((memo) => memo.id === targetID);
-
-    if (targetMemoIndex === -1) {
-      return null;
-    } else {
-      const newMemos = allMemos.filter((memo) => memo.id !== targetID);
-      saveMemosToLocalStorage(newMemos);
-      setAllMemos(newMemos);
-      setEditingMemo(null);
-    }
+    const newMemos = allMemos.filter((memo) => memo.id !== editingMemo.id);
+    saveMemosToLocalStorage(newMemos);
+    setAllMemos(newMemos);
+    setEditingMemo(null);
   }
 
   return (
     <div id="memo-app">
       <div id="memo-create-button">
         <MemoCreateButton handleCreateButtonClick={handleCreateButtonClick} />
-      </div>
-      <div id="memo-list">
-        <MemoList
-          allMemos={allMemos}
-          handleSelectedMemoClick={(memo) => setEditingMemo(memo)}
-        />
       </div>
       {editingMemo ? (
         <div id="memo-edit-form">
@@ -92,6 +69,12 @@ function MemoApp() {
           />
         </div>
       ) : null}
+      <div id="memo-list">
+        <MemoList
+          allMemos={allMemos}
+          handleSelectedMemoClick={(memo) => setEditingMemo(memo)}
+        />
+      </div>
     </div>
   );
 }

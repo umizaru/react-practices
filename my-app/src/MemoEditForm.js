@@ -9,7 +9,7 @@ function MemoEditForm({
       <form>
         <textarea
           rows="5"
-          value={editingMemo ? editingMemo.content : ""}
+          value={editingMemo.content}
           onChange={(e) =>
             setEditingMemo({ ...editingMemo, content: e.target.value })
           }
