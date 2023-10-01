@@ -18,6 +18,12 @@ function MemoApp() {
     localStorage.setItem("memos", JSON.stringify(newMemos));
   }
 
+  function saveAndSetMemos(newMemos) {
+    saveMemosToLocalStorage(newMemos);
+    setAllMemos(newMemos);
+    setEditingMemo(null);
+  }
+
   function handleCreateButtonClick() {
     setEditingMemo({ id: uuidv4(), content: "新規メモ" });
   }
@@ -30,10 +36,9 @@ function MemoApp() {
 
     const targetMemo = allMemos.find((memo) => memo.id === editingMemo.id);
 
-    if (typeof targetMemo === "undefined") {
+    if (targetMemo === undefined) {
       const newMemos = [...allMemos, editingMemo];
-      saveMemosToLocalStorage(newMemos);
-      setAllMemos(newMemos);
+      saveAndSetMemos(newMemos);
     } else {
       const newMemos = [...allMemos];
       const updateMemos = {
@@ -41,17 +46,13 @@ function MemoApp() {
         content: editingMemo.content,
       };
       newMemos[targetMemo] = updateMemos;
-      saveMemosToLocalStorage(newMemos);
-      setAllMemos(newMemos);
+      saveAndSetMemos(newMemos);
     }
-    setEditingMemo(null);
   }
 
   function handleDeleteButtonClick() {
     const newMemos = allMemos.filter((memo) => memo.id !== editingMemo.id);
-    saveMemosToLocalStorage(newMemos);
-    setAllMemos(newMemos);
-    setEditingMemo(null);
+    saveAndSetMemos(newMemos);
   }
 
   return (
