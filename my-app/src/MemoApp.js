@@ -34,25 +34,24 @@ function MemoApp() {
       return;
     }
 
-    const targetMemo = allMemos.find((memo) => memo.id === editingMemo.id);
+    const targetMemoIndex = allMemos.findIndex(
+      (memo) => memo.id === editingMemo.id
+    );
+    let newMemos = [...allMemos];
 
-    if (targetMemo === undefined) {
-      const newMemos = [...allMemos, editingMemo];
-      saveAndSetMemos(newMemos);
+    if (targetMemoIndex === -1) {
+      newMemos = [...allMemos, editingMemo];
     } else {
-      const newMemos = [...allMemos];
-      const updateMemos = {
-        ...newMemos[targetMemo],
-        content: editingMemo.content,
-      };
-      newMemos[targetMemo] = updateMemos;
-      saveAndSetMemos(newMemos);
+      newMemos[targetMemoIndex] = editingMemo;
     }
+    saveAndSetMemos(newMemos);
   }
 
   function handleDeleteButtonClick() {
-    const newMemos = allMemos.filter((memo) => memo.id !== editingMemo.id);
-    saveAndSetMemos(newMemos);
+    const memosExceptingDeletionMemo = allMemos.filter(
+      (memo) => memo.id !== editingMemo.id
+    );
+    saveAndSetMemos(memosExceptingDeletionMemo);
   }
 
   return (
