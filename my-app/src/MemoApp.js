@@ -4,12 +4,11 @@ import "./App.css";
 import MemoCreateButton from "./MemoCreateButton";
 import MemoEditForm from "./MemoEditForm";
 import MemoList from "./MemoList";
-import { AuthContext } from "./AuthApp";
+import { useAuthContext } from "./AuthApp";
 
 function MemoApp() {
   const [allMemos, setAllMemos] = useState([]);
   const [editingMemo, setEditingMemo] = useState("");
-  const [logIn, SetLogIn] = useState(false);
 
   useEffect(() => {
     const storedMemos = JSON.parse(localStorage.getItem("memos")) || [];
@@ -24,11 +23,6 @@ function MemoApp() {
     saveMemosToLocalStorage(newMemos);
     setAllMemos(newMemos);
     setEditingMemo(null);
-  }
-
-  function logInAuth() {
-    const logIn = () => SetLogIn(true);
-    const logOut = () => SetLogIn(false);
   }
 
   function handleCreateButtonClick() {
