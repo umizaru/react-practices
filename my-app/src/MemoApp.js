@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 import MemoCreateButton from "./MemoCreateButton";
 import MemoEditForm from "./MemoEditForm";
 import MemoList from "./MemoList";
+import { AuthContext } from "./AuthApp";
 
 function MemoApp() {
   const [allMemos, setAllMemos] = useState([]);
   const [editingMemo, setEditingMemo] = useState("");
+  const [logIn, SetLogIn] = useState(false);
 
   useEffect(() => {
     const storedMemos = JSON.parse(localStorage.getItem("memos")) || [];
@@ -24,6 +26,11 @@ function MemoApp() {
     setEditingMemo(null);
   }
 
+  function logInAuth() {
+    const logIn = () => SetLogIn(true);
+    const logOut = () => SetLogIn(false);
+  }
+
   function handleCreateButtonClick() {
     setEditingMemo({ id: uuidv4(), content: "新規メモ" });
   }
@@ -34,20 +41,17 @@ function MemoApp() {
       return;
     }
 
-    const targetMemo = allMemos.find((memo) => memo.id === editingMemo.id);
+    const targetMemoIndex = allMemos.findIndex(
+      (memo) => memo.id === editingMemo.id
+    );
+    let newMemos = [...allMemos];
 
-    if (targetMemo === undefined) {
-      const newMemos = [...allMemos, editingMemo];
-      saveAndSetMemos(newMemos);
+    if (targetMemoIndex === -1) {
+      newMemos = [...allMemos, editingMemo];
     } else {
-      const newMemos = [...allMemos];
-      const updateMemos = {
-        ...newMemos[targetMemo],
-        content: editingMemo.content,
-      };
-      newMemos[targetMemo] = updateMemos;
-      saveAndSetMemos(newMemos);
+      newMemos[targetMemoIndex] = editingMemo;
     }
+    saveAndSetMemos(newMemos);
   }
 
   function handleDeleteButtonClick() {
