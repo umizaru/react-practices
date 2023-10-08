@@ -4,7 +4,7 @@ import "./App.css";
 import MemoCreateButton from "./MemoCreateButton";
 import MemoEditForm from "./MemoEditForm";
 import MemoList from "./MemoList";
-import { useAuthContext } from "./AuthApp";
+import { AuthProvider } from "./AuthApp";
 
 function MemoApp() {
   const [allMemos, setAllMemos] = useState([]);
@@ -54,27 +54,29 @@ function MemoApp() {
   }
 
   return (
-    <div id="memo-app">
-      <div id="memo-create-button">
-        <MemoCreateButton handleCreateButtonClick={handleCreateButtonClick} />
-      </div>
-      {editingMemo ? (
-        <div id="memo-edit-form">
-          <MemoEditForm
-            editingMemo={editingMemo}
-            setEditingMemo={setEditingMemo}
-            handleEditButtonClick={handleEditButtonClick}
-            handleDeleteButtonClick={handleDeleteButtonClick}
+    <AuthProvider>
+      <div id="memo-app">
+        <div id="memo-create-button">
+          <MemoCreateButton handleCreateButtonClick={handleCreateButtonClick} />
+        </div>
+        {editingMemo ? (
+          <div id="memo-edit-form">
+            <MemoEditForm
+              editingMemo={editingMemo}
+              setEditingMemo={setEditingMemo}
+              handleEditButtonClick={handleEditButtonClick}
+              handleDeleteButtonClick={handleDeleteButtonClick}
+            />
+          </div>
+        ) : null}
+        <div id="memo-list">
+          <MemoList
+            allMemos={allMemos}
+            handleSelectedMemoClick={(memo) => setEditingMemo(memo)}
           />
         </div>
-      ) : null}
-      <div id="memo-list">
-        <MemoList
-          allMemos={allMemos}
-          handleSelectedMemoClick={(memo) => setEditingMemo(memo)}
-        />
       </div>
-    </div>
+    </AuthProvider>
   );
 }
 

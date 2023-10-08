@@ -1,18 +1,16 @@
 // Contextをインポート、コンテクストを作成
 import { useState, createContext, useContext } from "react";
-const AuthContext = createContext(null);
+const AuthContext = createContext(false);
 
 // コンテクストプロバイダーコンポーネントを作成
 export function AuthProvider({ children }) {
-  const [logIn, SetLogIn] = useState(false);
+  const [loggedIn, SetLogIn] = useState(false);
+  const logIn = () => SetLogIn(true);
+  const logOut = () => SetLogIn(false);
 
-  function logInAuth() {
-    const logIn = () => SetLogIn(true);
-    const logOut = () => SetLogIn(false);
-  }
-
+  // Providerで下位のコンポーネントに値を提供（指定）
   return (
-    <AuthContext.Provider value={{ logIn, SetLogIn }}>
+    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
       {children};
     </AuthContext.Provider>
   );
