@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuthContext } from "./AuthApp";
 
 function MemoEditForm({
@@ -6,6 +7,7 @@ function MemoEditForm({
   handleEditButtonClick,
   handleDeleteButtonClick,
 }) {
+  const { loggedIn, login, logout } = useState();
   return (
     <div>
       <form>
