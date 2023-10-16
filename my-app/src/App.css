@@ -29,6 +29,12 @@
   border: 1px solid #ccc;
 }
 
+/* テキストエリアのスタイル */
+.textarea {
+  margin: 10px;
+  border: 1px solid #ccc;
+}
+
 .auth-button {
   position: absolute;
   top: 10px;

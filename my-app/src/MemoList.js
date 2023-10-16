@@ -1,11 +1,13 @@
 import { useAuthContext } from "./AuthApp";
 
 function MemoList({ allMemos, handleSelectedMemoClick }) {
+  const { loggedIn, logIn, logOut } = useAuthContext();
+
   const handleClick = (event, memo) => {
     event.preventDefault();
     handleSelectedMemoClick(memo);
   };
-  const { loggedOut, logIn, logOut } = useAuthContext();
+
   const memos = allMemos.map((memo) => (
     <li key={memo.id}>
       <a href=" " onClick={(event) => handleClick(event, memo)}>
@@ -13,8 +15,9 @@ function MemoList({ allMemos, handleSelectedMemoClick }) {
       </a>
     </li>
   ));
+
   const handleAuthButtonClick = () => {
-    if (loggedOut) {
+    if (loggedIn) {
       logOut();
     } else {
       logIn();
@@ -24,7 +27,7 @@ function MemoList({ allMemos, handleSelectedMemoClick }) {
     <div>
       <ul>{memos}</ul>
       <button onClick={handleAuthButtonClick} className="auth-button">
-        {loggedOut ? "ログイン" : "ログアウト"}
+        {loggedIn ? "ログアウト" : "ログイン"}
       </button>
     </div>
   );

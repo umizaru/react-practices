@@ -6,20 +6,21 @@ function MemoEditForm({
   handleEditButtonClick,
   handleDeleteButtonClick,
 }) {
-  const { loggedOut } = useAuthContext();
+  const { loggedIn } = useAuthContext();
   return (
     <div>
       <form>
         <textarea
+          className="textarea"
           rows="5"
           value={editingMemo.content}
           onChange={(e) =>
             setEditingMemo({ ...editingMemo, content: e.target.value })
           }
-          readOnly={loggedOut}
+          readOnly={!loggedIn}
         />
       </form>
-      {!loggedOut && (
+      {loggedIn && (
         <>
           <button className="button" onClick={handleEditButtonClick}>
             編集

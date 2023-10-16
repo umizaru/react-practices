@@ -1,9 +1,9 @@
 import { useAuthContext } from "./AuthApp";
 
 function MemoCreateButton({ handleCreateButtonClick }) {
-  const { loggedOut } = useAuthContext();
+  const { loggedIn } = useAuthContext();
 
-  if (loggedOut) {
+  if (!loggedIn) {
     return null;
   }
   return (
