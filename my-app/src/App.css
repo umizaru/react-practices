@@ -28,3 +28,9 @@
   padding: 20px;
   border: 1px solid #ccc;
 }
+
+.auth-button {
+  position: absolute;
+  top: 10px;
+  left: 200px;
+}

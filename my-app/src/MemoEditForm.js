@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useAuthContext } from "./AuthApp";
 
 function MemoEditForm({
@@ -7,7 +6,7 @@ function MemoEditForm({
   handleEditButtonClick,
   handleDeleteButtonClick,
 }) {
-  const { loggedIn, login, logout } = useState();
+  const { loggedOut } = useAuthContext();
   return (
     <div>
       <form>
@@ -17,14 +16,19 @@ function MemoEditForm({
           onChange={(e) =>
             setEditingMemo({ ...editingMemo, content: e.target.value })
           }
+          readOnly={loggedOut}
         />
       </form>
-      <button className="button" onClick={handleEditButtonClick}>
-        編集
-      </button>
-      <button className="button" onClick={handleDeleteButtonClick}>
-        削除
-      </button>
+      {!loggedOut && (
+        <>
+          <button className="button" onClick={handleEditButtonClick}>
+            編集
+          </button>
+          <button className="button" onClick={handleDeleteButtonClick}>
+            削除
+          </button>
+        </>
+      )}
     </div>
   );
 }

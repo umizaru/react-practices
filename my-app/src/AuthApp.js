@@ -4,14 +4,14 @@ const AuthContext = createContext(false);
 
 // コンテクストプロバイダーコンポーネントを作成
 export function AuthProvider({ children }) {
-  const [loggedIn, SetLogIn] = useState(true);
+  const [loggedOut, SetLogIn] = useState(true);
   const logIn = () => SetLogIn(true);
   const logOut = () => SetLogIn(false);
 
   // Providerで下位のコンポーネントに値を提供（指定）
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
-      {children};
+    <AuthContext.Provider value={{ loggedOut, logIn, logOut }}>
+      {children}
     </AuthContext.Provider>
   );
 }
