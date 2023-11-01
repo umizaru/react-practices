@@ -4,6 +4,11 @@ function MemoCreateButton({ handleCreateButtonClick }) {
   const { loggedIn } = useAuthContext();
 
   if (!loggedIn) {
+    <div>
+      <button className="button" disabled>
+        ＋
+      </button>
+    </div>;
     return null;
   }
   return (

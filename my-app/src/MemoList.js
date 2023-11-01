@@ -8,14 +8,6 @@ function MemoList({ allMemos, handleSelectedMemoClick }) {
     handleSelectedMemoClick(memo);
   };
 
-  const memos = allMemos.map((memo) => (
-    <li key={memo.id}>
-      <a href=" " onClick={(event) => handleClick(event, memo)}>
-        {memo.content.split("\n")[0]}
-      </a>
-    </li>
-  ));
-
   const handleAuthButtonClick = () => {
     if (loggedIn) {
       logOut();
@@ -25,7 +17,15 @@ function MemoList({ allMemos, handleSelectedMemoClick }) {
   };
   return (
     <div>
-      <ul>{memos}</ul>
+      <ul>
+        {allMemos.map((memo) => (
+          <li key={memo.id}>
+            <a href=" " onClick={(event) => handleClick(event, memo)}>
+              {memo.content.split("\n")[0]}
+            </a>
+          </li>
+        ))}
+      </ul>
       <button onClick={handleAuthButtonClick} className="auth-button">
         {loggedIn ? "ログアウト" : "ログイン"}
       </button>
