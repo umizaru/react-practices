@@ -22,7 +22,10 @@ function MemoEditForm({
       </form>
       {loggedIn && (
         <>
-          <button className="button" onClick={handleEditButtonClick}>
+          <button
+            className="button"
+            onClick={() => handleEditButtonClick(editingMemo.id)}
+          >
             編集
           </button>
           <button className="button" onClick={handleDeleteButtonClick}>

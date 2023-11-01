@@ -29,21 +29,22 @@ function MemoApp() {
     setEditingMemo({ id: uuidv4(), content: "新規メモ" });
   }
 
-  function handleEditButtonClick() {
+  function handleEditButtonClick(id) {
     if (editingMemo.content === "") {
       alert("文字を入力してください");
       return;
     }
 
-    const targetMemoIndex = allMemos.findIndex(
-      (memo) => memo.id === editingMemo.id
-    );
     let newMemos = [...allMemos];
+    const targetMemo = allMemos.find((memo) => memo.id === id);
 
-    if (targetMemoIndex === -1) {
+    if (!targetMemo) {
       newMemos = [...allMemos, editingMemo];
     } else {
-      newMemos[targetMemoIndex] = editingMemo;
+      const updatedMemos = newMemos.map((memo) =>
+        memo.id === id ? { ...memo, content: editingMemo.content } : memo
+      );
+      newMemos = updatedMemos;
     }
     saveAndSetMemos(newMemos);
   }
