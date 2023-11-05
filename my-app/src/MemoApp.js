@@ -50,8 +50,10 @@ function MemoApp() {
   }
 
   function handleDeleteButtonClick() {
-    const newMemos = allMemos.filter((memo) => memo.id !== editingMemo.id);
-    saveAndSetMemos(newMemos);
+    const memosExceptingDeletionMemo = allMemos.filter(
+      (memo) => memo.id !== editingMemo.id
+    );
+    saveAndSetMemos(memosExceptingDeletionMemo);
   }
 
   return (
